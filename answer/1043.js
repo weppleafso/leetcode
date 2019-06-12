@@ -17,7 +17,6 @@ var maxSumAfterPartitioning = function (A, K) {
             }
         }
     }
-    console.log(maxList);
     for(let i = 0;i<K;i++){
         P[i] = maxList[0][i] * (i + 1);
     }
@@ -32,14 +31,11 @@ var cal = function (A, K, n) {
     for (let i = 1; i <= K; i++) {
         if (n > i) {
             let pre = maxList[n - i][i - 1] * i + cal(A, K, n - i);
-            console.log(pre);
             sum = Math.max(sum, pre);
         }
 
     }
     P[n - 1] = sum;
-    // console.log(sum);
-    // P[n] = sum;
     return sum;
 }
 let ret = maxSumAfterPartitioning([1,15,7,9,2,5,10], 3);

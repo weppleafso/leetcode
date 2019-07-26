@@ -3,22 +3,19 @@
  * @param {number} k
  * @return {number[]}
  */
-var topKFrequent = function(nums, k) {
+var topKFrequent = function (nums, k) {
     let dic = {};
-    let list = [];
-    let min = 0;
-    for(let i = 0;i<nums.length;i++){
+    let counts = {};
+    for (let i = 0; i < nums.length; i++) {
         let num = nums[i];
         let count = dic[num] || 0;
         count++;
-        if(list.length < k){
-            list.push(num);
-            min = Math.max(count,min);
-        }
-        else{
-            if(count > min){
-
-            }
-        }
+        dic[num] = count;
+    }
+    let lists = [];
+    for(let num in dic){
+        let count = dic[num];
+        let list = counts[count] || [];
+        list.push(+num);
     }
 };

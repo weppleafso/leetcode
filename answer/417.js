@@ -3,34 +3,115 @@
  * @return {number[][]}
  */
 var pacificAtlantic = function(matrix) {
+    console.log(matrix);
+    if(matrix.length === 0){
+        return [];
+    }
     let matrixA = [];
     let matrixB = [];
     let N = matrix.length;
     let M = matrix[0].length;
+
+    let openA = [];
+    let openB = [];
     for(let i = 0;i<N;i++){
         matrixA.push([true]);
         matrixB.push([]);
         matrixB[i][M-1] = true;
+        openA.push({i:i,j:0});
+        openB.push({i:i,j:M-1});
     }
     for(let i = 0;i<M;i++){
         matrixA[0][i] = true;
-        matrixB[M-1][i] = true;
+        matrixB[N-1][i] = true;
+        openA.push({i:0,j:i});
+        openB.push({i:N-1,j:i});
     }
-    let max = Math.max(N,M);
-    for(let i = 1;i<max;i++){
-        let flag = true;
-        for(let n = i;n<N;n++){
-            flag =false;
-            let num = matrix[i][n];
-            if(num >= matrix[i][n-1] || num >= matrix[i-1][n]){
-                matrixA[i][n] = true;
+
+    while(openA.length > 0){
+        let {i,j} = openA.shift();
+        let val = matrix[i][j];
+        if(i > 0){
+            let left = matrix[i-1][j];
+            if(!matrixA[i-1][j] && left >= val){
+                matrixA[i-1][j] = true;
+                openA.push({i:i-1,j:j});
             }
         }
-        for(let m = i;m<M;m++){
+        if(i < N-1){
+            let right = matrix[i+1][j];
+            if(!matrixA[i+1][j] && right >= val){
+                matrixA[i+1][j] = true;
+                openA.push({i:i+1,j:j});
+            }
+        }
 
+        if(j > 0){
+            let up = matrix[i][j-1];
+            if(!matrixA[i][j-1] && up >= val){
+                matrixA[i][j-1] = true;
+                openA.push({i:i,j:j-1});
+            }
+        }
+
+        if(j < M-1){
+            let down = matrix[i][j+1];
+            if(!matrixA[i][j+1] && down >= val){
+                matrixA[i][j+1] = true;
+                openA.push({i:i,j:j+1});
+            }
+        }
+        
+        if(matrixA[i][j]){
+            continue;
+        }
+    }
+
+    while(openB.length > 0){
+        let {i,j} = openB.shift();
+        let val = matrix[i][j];
+        if(i > 0){
+            let left = matrix[i-1][j];
+            if(!matrixB[i-1][j] && left >= val){
+                matrixB[i-1][j] = true;
+                openB.push({i:i-1,j:j});
+            }
+        }
+        if(i < N-1){
+            let right = matrix[i+1][j];
+            if(!matrixB[i+1][j] && right >= val){
+                matrixB[i+1][j] = true;
+                openB.push({i:i+1,j:j});
+            }
+        }
+
+        if(j > 0){
+            let up = matrix[i][j-1];
+            if(!matrixB[i][j-1] && up >= val){
+                matrixB[i][j-1] = true;
+                openB.push({i:i,j:j-1});
+            }
+        }
+
+        if(j < M-1){
+            let down = matrix[i][j+1];
+            if(!matrixB[i][j+1] && down >= val){
+                matrixB[i][j+1] = true;
+                openB.push({i:i,j:j+1});
+            }
         }
     }
     console.log(matrixA);
     console.log(matrixB);
+    let ret = [];
+    for(let i = 0;i<N;i++){
+        for(let j = 0;j<M;j++){
+            if(matrixA[i][j] && matrixB[i][j]){
+                ret.push([i,j]);
+            }
+        }
+    }
+    return ret;
 };
-pacificAtlantic([[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]);
+let ret = pacificAtlantic([[1,2,3,4,5],[16,17,18,19,6],[15,24,25,20,7],[14,23,22,21,8],[13,12,11,10,9]]);
+console.log(ret);

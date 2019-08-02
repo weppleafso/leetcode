@@ -3,25 +3,22 @@
  * @return {number}
  */
 var lastStoneWeightII = function(stones) {
-    let i = 3;
+    stones.sort(function(a,b){
+        return a - b;
+    });
     while(stones.length > 1){
-        stones.sort(function(a,b){
-            return b - a;
-        });
-        let temp =[];
-        for(let i = 0,len = stones.length;i<len;i+=2){
-            temp.push(stones[i] - stones[i+1])
+        let big = stones.pop();
+        let small = stones.pop();
+        let add = big - small;
+        //使用二分查找插入
+        stones.push(add);
+        let end = stones.length - 1;
+        while(true){
+            let pre = end-1;
+            // stones
         }
-        if(stones.length % 2 === 1){
-            temp.push(stones[stones.length-1]);
-        }
-        console.log(temp);
-        stones = temp;
-        i--;
-        if(i<0){
-            break;
-        }
+
     }
     return stones[0];
 };
-console.log(lastStoneWeightII([1,1,2,4,7,8]));
+console.log(lastStoneWeightII([123,1,5,2,4,7,8]));

@@ -8,7 +8,6 @@ var monotoneIncreasingDigits = function(N) {
     for(let i =0,len = str.length;i<len;i++){
         list.push(parseInt(str[i]));
     }
-    let ret = [];
     let len = list.length;
     let flag = list.length;
     for(let i = 1;i<len;i++){
